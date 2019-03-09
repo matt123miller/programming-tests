@@ -1,0 +1,17 @@
+{
+    "name": "practice-haplo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "serve": "nodemon src/server.js"
+    },
+    "author": "matt123miller",
+    "license": "GPL-3.0",
+    "dependencies": {
+        "express": "^4.16.4",
+        "nodemon": "^1.18.10",
+        "nunjucks": "^3.2.0"
+    }
+}
