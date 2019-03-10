@@ -13,42 +13,32 @@
 
         table {
             border-collapse: collapse;
-            border: 2px solid rgb(0, 0, 0);
+            border: 1px solid rgb(0, 0, 0);
             letter-spacing: 1px;
             font-size: 0.8rem;
         }
 
-        td,
-        th {
-            border: 1px solid rgb(190, 190, 190);
-            padding: 10px 20px;
-        }
-
-        th {
-            background-color: rgb(235, 235, 235);
-        }
-
         td {
-            text-align: center;
+            border: 1px solid rgb(0, 0, 0);
+            padding: 10px 20px;
+            text-align: left;
         }
+
+        #backToStart {
+            margin-bottom: 25px;
+        }
+
     </style>
     <title>Haplo test</title>
 </head>
 
 <body>
 
-    <div>
-        {{ currentStoryId }}
-    </div>
-
-
-
-    <div>
+    <div id="backToStart">
         <a href="/0">Back to the start</a>
     </div>
 
-    
-    <table>
+    <table cellpadding="5" cellspacing="5">
         <tr>
             <td></td>
             <td>
@@ -59,7 +49,9 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="north" id="northID">
-                    <input type="submit" value="Submit">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
@@ -75,7 +67,9 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="west" id="westID">
-                    <input type="submit" value="Submit">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
@@ -93,7 +87,9 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="east" id="eastID">
-                    <input type="submit" value="Submit">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
@@ -109,7 +105,9 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="south" id="southID">
-                    <input type="submit" value="Submit">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
