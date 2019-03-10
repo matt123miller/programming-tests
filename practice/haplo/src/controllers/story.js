@@ -1,6 +1,12 @@
 //@ts-check
 
-let storyCache = {};
+let storyCache = {
+    '0' : { text: 'This is where your story begins'},
+    '01' : {},
+    '02' : {},
+    '03' : {},
+    '04' : {},
+};
 
 const directions = {
     north: 1,
@@ -10,43 +16,67 @@ const directions = {
 };
 
 
+
 function index(req, res) {
 
-    res.render("index.njk");
+    const currentStoryFragments = buioldTemplatingData(0);
+    console.log({currentStoryFragments});
+
+    res.render("index.njk", currentStoryFragments);
 }
 
 function getFragment(req, res) {
 
     const { fragmentID } = req.params;
 
-    // Later add directions by getting existing fragments out of storyCache
-    const fragmentData = { 
-        current_story_id : fragmentID ,
-        north: true
-    };
+    const currentStoryFragments = buioldTemplatingData(fragmentID);
+    
+    console.log({currentStoryFragments});
 
-    res.render("index.njk", fragmentData);
+    res.render("index.njk", currentStoryFragments);
 }
 
 function postFragment(req, res) {
 
-    console.log(req.body);
-    const { fragmentID, direction } = req.params;
 
+    const bodyDirection = Object.keys(req.body)[0]; // potentially use a filter and loop the directions object?
+    const currentStoryId = req.body.currentStoryId;
+    const directionKey = directions[bodyDirection];
 
+    const directionID = computeFragmentHash(currentStoryId,  directionKey);
+
+    storyCache[directionID] = { text: req.body[bodyDirection] };
     
-    const newID = computeFragmentHash(fragmentID, direction);
+    const currentStoryFragments = buioldTemplatingData(currentStoryId);
+    // Also add the currentStoryId for good measure. Coudl do it in the above function but it feels better here.
+    // currentStoryFragments.currentStoryId = currentStoryId;
+    
+    console.log({body: req.body});
+    console.log({storyCache});
+    console.log({currentStoryFragments});
+    console.log({bodyDirection});
 
-    console.log(newID);
-
-
-
-    res.render('index.njk', {north: direction});
+    res.render('index.njk', currentStoryFragments);
 }
+
+
+function buioldTemplatingData(currentStoryId) {
+
+    const currentFragment = storyCache[currentStoryId];
+    const north = storyCache[`${currentStoryId}1`];
+    const east = storyCache[`${currentStoryId}2`];
+    const south = storyCache[`${currentStoryId}3`];
+    const west = storyCache[`${currentStoryId}4`];
+
+    const fragments = { currentStoryId, currentFragment, north, east, south, west };
+
+    return fragments;
+}
+
 
 // Can easily be swapped out for something more robust later.
 function computeFragmentHash(fragmentID, direction) {
-    return `${fragmentID}-${direction}`;
+    return `${fragmentID}${direction}`;
 }
 
 

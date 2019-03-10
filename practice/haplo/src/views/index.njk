@@ -38,7 +38,7 @@
 <body>
 
     <div>
-        {{ current_story_id }}
+        {{ currentStoryId }}
     </div>
 
 
@@ -48,63 +48,71 @@
     
     <table>
         <tr>
-            <td>a</td>
+            <td></td>
             <td>
-                    {% if north %}
-                    <div>
-                        create link to that story fragment here
-                    </div>
-                    {% else %}
-                    <form action="/north" method="post">
-                        <input type="text" name="north" id="northID">
-                        <input type="submit" value="Send north">
-                    </form>
-                    {% endif %}
+                {% if north.text %}
+                <div>
+                    <a href="/{{ currentStoryId }}1">{{ north.text }}</a>
+                </div>
+                {% else %}
+                <form action="/{{ currentStoryId }}" method="post">
+                    <input type="text" name="north" id="northID">
+                    <input type="submit" value="Send north">
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
+                </form>
+                {% endif %}
             </td>
-            <td>c</td>
+            <td></td>
         </tr>
         <tr>
             <td>
-                {% if west %}
+                {% if west.text %}
                 <div>
-                    create link to that story fragment here
+                    <a href="/{{ currentStoryId }}4">{{ west.text }}</a>
                 </div>
                 {% else %}
-                <form action="/west" method="post">
+                <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="west" id="westID">
                     <input type="submit" value="Send west">
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
             </td>
-            <td>e</td>
             <td>
-                {% if east %}
                 <div>
-                    create link to that story fragment here
+                    {{ currentFragment.text }}
+                </div>
+            </td>
+            <td>
+                {% if east.text %}
+                <div>
+                    <a href="/{{ currentStoryId }}2">{{ east.text }}</a>
                 </div>
                 {% else %}
-                <form action="/east" method="post">
+                <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="east" id="eastID">
                     <input type="submit" value="Send east">
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
             </td>
         </tr>
         <tr>
-            <td>g</td>
+            <td></td>
             <td>
-                {% if south %}
+                {% if south.text %}
                 <div>
-                    create link to that story fragment here
+                    <a href="/{{ currentStoryId }}3">{{ south.text }}</a>
                 </div>
                 {% else %}
-                <form action="/south" method="post">
+                <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="south" id="southID">
                     <input type="submit" value="Send south">
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
             </td>
-            <td>i</td>
+            <td></td>
         </tr>
     </table>
 </body>
