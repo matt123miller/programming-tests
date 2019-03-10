@@ -1,5 +1,7 @@
 //@ts-check
 
+// This will store all the users entered story fragments for the session.
+// It's prepopulated with the initial story prompt and 4 example keys.
 let storyCache = {
     '0': { text: 'This is where your story begins' },
     '01': {},
@@ -15,13 +17,10 @@ const directions = {
     west: 4
 };
 
-
-
 function index(req, res) {
 
     const currentStoryFragments = buildTemplatingData(0);
-    console.log({ currentStoryFragments });
-
+    
     res.render("index.njk", currentStoryFragments);
 }
 
@@ -31,35 +30,26 @@ function getFragment(req, res) {
 
     const currentStoryFragments = buildTemplatingData(fragmentID);
 
-    console.log('getfragment call')
-    console.log({ currentStoryFragments });
-
     res.render("index.njk", currentStoryFragments);
 }
 
 function postFragment(req, res) {
 
-
-    const bodyDirection = Object.keys(req.body)[0]; // potentially use a filter and loop the directions object?
+    // potentially use a filter and loop the directions object?
+    // Don't like relying on an index position
+    const bodyDirection = Object.keys(req.body)[0]; 
     const currentStoryId = req.body.currentStoryId;
     const directionKey = directions[bodyDirection];
 
-    const directionID = computeFragmentHash(currentStoryId, directionKey);
+    const fragmentHash = computeFragmentHash(currentStoryId, directionKey);
 
-    storyCache[directionID] = { text: req.body[bodyDirection] };
+    // Fill the cache with the entered text.
+    storyCache[fragmentHash] = { text: req.body[bodyDirection] };
 
     const currentStoryFragments = buildTemplatingData(currentStoryId);
-    // Also add the currentStoryId for good measure. Coudl do it in the above function but it feels better here.
-    // currentStoryFragments.currentStoryId = currentStoryId;
-
-    console.log({ body: req.body });
-    console.log({ storyCache });
-    console.log({ currentStoryFragments });
-    console.log({ bodyDirection });
 
     res.render('index.njk', currentStoryFragments);
 }
-
 
 function buildTemplatingData(currentStoryId) {
 
@@ -73,7 +63,6 @@ function buildTemplatingData(currentStoryId) {
 
     return fragments;
 }
-
 
 // Can easily be swapped out for something more robust later.
 function computeFragmentHash(fragmentID, direction) {
