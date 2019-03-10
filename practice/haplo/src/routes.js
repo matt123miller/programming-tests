@@ -1,14 +1,11 @@
-const HomeController = require("./controllers/home");
+const StoryController = require("./controllers/story");
 
 
 function setupRoutes(app) {
 
-    app.get('/', (req, res) => {
+    app.get('/', StoryController.index);
 
-        return res.render('index.njk', { first_name: 'Hello Dan' });
-    });
-
-    app.get('/index', HomeController.index);
+    app.get('/:storyID', StoryController.getStory);
 
     return app;
 }
