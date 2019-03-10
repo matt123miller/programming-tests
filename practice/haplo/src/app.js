@@ -1,10 +1,12 @@
+//@ts-check
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 
 const app = express();
 
-// Had to add __dirname which seems stupid
+// Had to add __dirname so it found the right folder which seems stupid
 nunjucks.configure(__dirname + '/views', {
     autoescape: true,
     express: app

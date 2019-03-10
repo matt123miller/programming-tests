@@ -2,61 +2,111 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <style>
-    html {
-      font-family: sans-serif;
-    }
+    <style>
+        html {
+            font-family: sans-serif;
+        }
 
-    table {
-      border-collapse: collapse;
-      border: 2px solid rgb(0, 0, 0);
-      letter-spacing: 1px;
-      font-size: 0.8rem;
-    }
+        table {
+            border-collapse: collapse;
+            border: 2px solid rgb(0, 0, 0);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
 
-    td,
-    th {
-      border: 1px solid rgb(190, 190, 190);
-      padding: 10px 20px;
-    }
+        td,
+        th {
+            border: 1px solid rgb(190, 190, 190);
+            padding: 10px 20px;
+        }
 
-    th {
-      background-color: rgb(235, 235, 235);
-    }
+        th {
+            background-color: rgb(235, 235, 235);
+        }
 
-    td {
-      text-align: center;
-    }
-  </style>
-  <title>testing</title>
+        td {
+            text-align: center;
+        }
+    </style>
+    <title>testing</title>
 </head>
 
 <body>
 
-  <div>
-    {{ current_story_id }}
-  </div>
-  <table>
-    <tr>
-      <td>a</td>
-      <td>b</td>
-      <td>c</td>
-    </tr>
-    <tr>
-      <td>d</td>
-      <td>e</td>
-      <td>f</td>
-    </tr>
-    <tr>
-      <td>g</td>
-      <td>h</td>
-      <td>i</td>
-    </tr>
-  </table>
+    <div>
+        {{ current_story_id }}
+    </div>
+
+
+
+    
+
+    
+    <table>
+        <tr>
+            <td>a</td>
+            <td>
+                    {% if north %}
+                    <div>
+                        create link to that story fragment here
+                    </div>
+                    {% else %}
+                    <form action="/north" method="post">
+                        <input type="text" name="north" id="northID">
+                        <input type="submit" value="Send north">
+                    </form>
+                    {% endif %}
+            </td>
+            <td>c</td>
+        </tr>
+        <tr>
+            <td>
+                {% if west %}
+                <div>
+                    create link to that story fragment here
+                </div>
+                {% else %}
+                <form action="/west" method="post">
+                    <input type="text" name="west" id="westID">
+                    <input type="submit" value="Send west">
+                </form>
+                {% endif %}
+            </td>
+            <td>e</td>
+            <td>
+                {% if east %}
+                <div>
+                    create link to that story fragment here
+                </div>
+                {% else %}
+                <form action="/east" method="post">
+                    <input type="text" name="east" id="eastID">
+                    <input type="submit" value="Send east">
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>g</td>
+            <td>
+                {% if south %}
+                <div>
+                    create link to that story fragment here
+                </div>
+                {% else %}
+                <form action="/south" method="post">
+                    <input type="text" name="south" id="southID">
+                    <input type="submit" value="Send south">
+                </form>
+                {% endif %}
+            </td>
+            <td>i</td>
+        </tr>
+    </table>
 </body>
 
 </html>

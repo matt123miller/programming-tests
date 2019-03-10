@@ -1,18 +1,57 @@
 //@ts-check
 
+let storyCache = {};
+
+const directions = {
+    north: 1,
+    east: 2,
+    south: 3,
+    west: 4
+};
+
+
 function index(req, res) {
 
     res.render("index.njk");
 }
 
-function getStory(req, res){
+function getFragment(req, res) {
 
-    const { storyID } = req.params;
+    const { fragmentID } = req.params;
 
-    res.render("index.njk", { current_story_id : storyID });
+    // Later add directions by getting existing fragments out of storyCache
+    const fragmentData = { 
+        current_story_id : fragmentID ,
+        north: true
+    };
+
+    res.render("index.njk", fragmentData);
 }
+
+function postFragment(req, res) {
+
+    console.log(req.body);
+    const { fragmentID, direction } = req.params;
+
+
+    
+    const newID = computeFragmentHash(fragmentID, direction);
+
+    console.log(newID);
+
+
+
+    res.render('index.njk', {north: direction});
+}
+
+// Can easily be swapped out for something more robust later.
+function computeFragmentHash(fragmentID, direction) {
+    return `${fragmentID}-${direction}`;
+}
+
 
 module.exports = {
     index,
-    getStory
+    getFragment,
+    postFragment
 };

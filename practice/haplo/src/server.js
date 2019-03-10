@@ -1,3 +1,5 @@
+//@ts-check
+
 const { app } = require("./app");
 const { setupRoutes } = require("./routes");
 
