@@ -32,7 +32,7 @@
             text-align: center;
         }
     </style>
-    <title>testing</title>
+    <title>Haplo test</title>
 </head>
 
 <body>
@@ -43,7 +43,9 @@
 
 
 
-    
+    <div>
+        <a href="/0">Back to the start</a>
+    </div>
 
     
     <table>
@@ -57,7 +59,7 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="north" id="northID">
-                    <input type="submit" value="Send north">
+                    <input type="submit" value="Submit">
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
@@ -73,7 +75,7 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="west" id="westID">
-                    <input type="submit" value="Send west">
+                    <input type="submit" value="Submit">
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
@@ -91,7 +93,7 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="east" id="eastID">
-                    <input type="submit" value="Send east">
+                    <input type="submit" value="Submit">
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}
@@ -107,7 +109,7 @@
                 {% else %}
                 <form action="/{{ currentStoryId }}" method="post">
                     <input type="text" name="south" id="southID">
-                    <input type="submit" value="Send south">
+                    <input type="submit" value="Submit">
                     <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
                 </form>
                 {% endif %}

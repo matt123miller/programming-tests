@@ -19,7 +19,7 @@ const directions = {
 
 function index(req, res) {
 
-    const currentStoryFragments = buioldTemplatingData(0);
+    const currentStoryFragments = buildTemplatingData(0);
     console.log({currentStoryFragments});
 
     res.render("index.njk", currentStoryFragments);
@@ -29,8 +29,9 @@ function getFragment(req, res) {
 
     const { fragmentID } = req.params;
 
-    const currentStoryFragments = buioldTemplatingData(fragmentID);
+    const currentStoryFragments = buildTemplatingData(fragmentID);
     
+    console.log('getfragment call')
     console.log({currentStoryFragments});
 
     res.render("index.njk", currentStoryFragments);
@@ -47,7 +48,7 @@ function postFragment(req, res) {
 
     storyCache[directionID] = { text: req.body[bodyDirection] };
     
-    const currentStoryFragments = buioldTemplatingData(currentStoryId);
+    const currentStoryFragments = buildTemplatingData(currentStoryId);
     // Also add the currentStoryId for good measure. Coudl do it in the above function but it feels better here.
     // currentStoryFragments.currentStoryId = currentStoryId;
     
@@ -60,7 +61,7 @@ function postFragment(req, res) {
 }
 
 
-function buioldTemplatingData(currentStoryId) {
+function buildTemplatingData(currentStoryId) {
 
     const currentFragment = storyCache[currentStoryId];
     const north = storyCache[`${currentStoryId}1`];
