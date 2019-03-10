@@ -1,18 +1,18 @@
 //@ts-check
-/// <reference path="../../node_modules/@types/express/index.d.ts"/>
-// const express = require('express');
 
-// /**
-//  * 
-//  * @param {Express.Request} req 
-//  * @param {Express.Response} res 
-//  */
 function index(req, res) {
 
     res.render("index.njk");
 }
 
+function getStory(req, res){
+
+    const { storyID } = req.params;
+
+    res.render("index.njk", { current_story_id : storyID });
+}
 
 module.exports = {
-    index
+    index,
+    getStory
 };
