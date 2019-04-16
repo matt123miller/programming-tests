@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            border: 1px solid rgb(0, 0, 0);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        td {
+            border: 1px solid rgb(0, 0, 0);
+            padding: 10px 20px;
+            text-align: left;
+        }
+
+        #backToStart {
+            margin-bottom: 25px;
+        }
+
+    </style>
+    <title>Haplo test</title>
+</head>
+
+<body>
+
+    <div id="backToStart">
+        <a href="/0">Back to the start</a>
+    </div>
+
+    <table cellpadding="5" cellspacing="5">
+        <tr>
+            <td></td>
+            <td>
+                {% if north.text %}
+                <div>
+                    <a href="/{{ currentStoryId }}1">{{ north.text }}</a>
+                </div>
+                {% else %}
+                <form action="/{{ currentStoryId }}" method="post">
+                    <input type="text" name="north" id="northID">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
+                </form>
+                {% endif %}
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                {% if west.text %}
+                <div>
+                    <a href="/{{ currentStoryId }}4">{{ west.text }}</a>
+                </div>
+                {% else %}
+                <form action="/{{ currentStoryId }}" method="post">
+                    <input type="text" name="west" id="westID">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
+                </form>
+                {% endif %}
+            </td>
+            <td>
+                <div>
+                    {{ currentFragment.text }}
+                </div>
+            </td>
+            <td>
+                {% if east.text %}
+                <div>
+                    <a href="/{{ currentStoryId }}2">{{ east.text }}</a>
+                </div>
+                {% else %}
+                <form action="/{{ currentStoryId }}" method="post">
+                    <input type="text" name="east" id="eastID">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                {% if south.text %}
+                <div>
+                    <a href="/{{ currentStoryId }}3">{{ south.text }}</a>
+                </div>
+                {% else %}
+                <form action="/{{ currentStoryId }}" method="post">
+                    <input type="text" name="south" id="southID">
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
+                    <input type="hidden" name="currentStoryId" value="{{currentStoryId}}">
+                </form>
+                {% endif %}
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+
+</html>
