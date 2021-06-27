@@ -1,18 +1,22 @@
 import { VRM, Make, Model, TimelineEvent } from "../types";
 
-// - id
-//     - VRM(number plate)
-//     - make(e.g., Ford)
-//     - model(e.g., Fiesta)
-//     - first registration date
 
+// Task
+// Provide a way to estimate a vehicle’s current mileage using the timeline.
+// 1. Calculate the average annual mileage using the events in the timeline.
+// 2. Estimate the vehicle’s current mileage by projecting from the most recent event using the
+// average annual mileage.
+// 3. If there are no timeline events with mileage, calculate using 7, 900 miles per year as the
+// average.
 
 export default class Vehicle {
-    id:Number;
+    readonly  id:Number;
     regDate: Date;
     vrm: VRM;
     make: Make;
     model: Model;
+
+    timeline: Array<TimelineEvent> = [];
 
     /**
      *
@@ -23,5 +27,12 @@ export default class Vehicle {
         this.vrm = vrm;
         this.make = make;
         this.model = model;
+    }
+
+    addToTimeline(event: TimelineEvent) : Array<TimelineEvent> {
+
+        this.timeline.push(event);
+
+        return this.timeline;
     }
 }
