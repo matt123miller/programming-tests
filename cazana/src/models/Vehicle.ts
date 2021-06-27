@@ -16,7 +16,7 @@ export default class Vehicle {
     make: Make;
     model: Model;
 
-    timeline: Array<TimelineEvent> = [];
+    timeline: Set<TimelineEvent> = new Set();
 
     /**
      *
@@ -29,9 +29,9 @@ export default class Vehicle {
         this.model = model;
     }
 
-    addToTimeline(event: TimelineEvent) : Array<TimelineEvent> {
+    addToTimeline(event: TimelineEvent) : Set<TimelineEvent> {
 
-        this.timeline.push(event);
+        this.timeline.add(event);
 
         return this.timeline;
     }

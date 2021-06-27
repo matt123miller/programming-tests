@@ -57,12 +57,12 @@ test('Vehicle Timeline - adding to timeline', () => {
     vehicle.addToTimeline(mot);
 
     expect(vehicle.timeline).toContain(mot);
-    expect(vehicle.timeline).toHaveLength(1);
+    expect(vehicle.timeline.size).toBe(1);
 
     vehicle.addToTimeline(advert);
 
     expect(vehicle.timeline).toContain(advert);
-    expect(vehicle.timeline).toHaveLength(2);
+    expect(vehicle.timeline.size).toBe(2);
 })
 
 
@@ -80,6 +80,6 @@ test('Vehicle Timeline - Each event is unique', () => {
     vehicle.addToTimeline(mot);
 
     expect(vehicle.timeline).toContain(mot);
-    expect(vehicle.timeline).toHaveLength(1);
+    expect(vehicle.timeline.size).toBe(1);
     
 })
