@@ -8,7 +8,7 @@ import { Unique, VRM, Make, Model, TimelineEvent } from "../types";
 // 1. Calculate the average annual mileage using the events in the timeline.
 // 2. Estimate the vehicle’s current mileage by projecting from the most recent event using the
 // average annual mileage.
-// 3. If there are no timeline events with mileage, calculate using 7, 900 miles per year as the
+// 3. If there are no timeline events with mileage, calculate using 7,900 miles per year as the
 // average.
 
 export default class Vehicle implements Unique {
@@ -49,4 +49,22 @@ export default class Vehicle implements Unique {
 
         return this.timeline;
     }
+
+    // ok lets implement the actual task functionality now I've played around with TS and testing.
+    // I'm considering splitting the timeline out into it's own class, 
+    // then all the behaviour and data is cohesive and Vehicle can have a timeline reference.
+
+    // Task
+    // Provide a way to estimate a vehicle’s current mileage using the timeline.
+    // 1. Calculate the average annual mileage using the events in the timeline.
+    // 2. Estimate the vehicle’s current mileage by projecting from the most recent 
+    // event using the average annual mileage.
+    // 3. If there are no timeline events with mileage, calculate using 7,900 miles 
+    // per year as the average.
+
+
+
+
+
+
 }

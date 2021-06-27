@@ -73,7 +73,7 @@ test('Vehicle Timeline - Each event is unique', () => {
 
     const regDate = new Date('2000-01-01T09:00:00');
     const motDate = new Date('2000-01-15T09:00:00');
-    const advertiseDate = new Date('2000-01-15T09:00:00');
+    const advertiseDate = new Date('2000-01-16T09:00:00');
 
     const vehicle = new Vehicle(regDate, '123', 'Ford', 'Fiesta');
     const mot1 = new MOT(motDate, 3000, true);
@@ -101,3 +101,12 @@ test('Vehicle Timeline - Each event is unique', () => {
     expect(vehicle.timeline).toContain(mot2);
     expect(vehicle.timeline.size).toBe(2);
 })
+
+// Having to make these todo tests isn't as nice as Mocha's pending tests
+test.todo('Vehicle Timeline - Get most recent event')
+
+test.todo('Vehicle Timeline - Calculate annual mileage with no mileage events')
+
+test.todo('Vehicle Timeline - Calculate annual mileage with all mileage events')
+
+test.todo('Vehicle Timeline - Calculate annual mileage with micture of mileage and non-mileage events')
