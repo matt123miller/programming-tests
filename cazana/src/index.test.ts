@@ -140,6 +140,8 @@ test('Timeline - Get most recent event', () => {
 test('Timeline - Find the length of the timeline in days', () => {
     // The durationOfTimeline function mostly just calls a date-fns function and
     // I'm not gonna write tests for that. I'm mostly testing my own logic around it.
+    // I also ended up not using the function for anything, which is a shame.
+
 
     const d1 = new Date('2000-01-01T09:00:00');
     const d2 = new Date('2000-02-01T09:00:00');
@@ -314,4 +316,49 @@ test('Timeline - Calculate annual mileage with mixture of mileage and non-mileag
     expect(grouping['2004'].mileage).toBe(2700);
     expect(grouping['2005'].mileage).toBe(1300);
     expect(grouping['2006'].mileage).toBe(2000);
+})
+
+
+test('Timeline - Bringing everything together', () => {
+
+    // I've written this once last on purpose.
+    // In theory because all previous tests are passing I should be able
+    // to compose the individual behaviours inside 1 function, test that 
+    // and get expected output.
+
+    const vehicle = new Vehicle(new Date('20016-02-01T09:00:00'), 'IP4 3DY', 'Volkswagon', 'Beetle');
+
+    // Buys car, gets MOT done
+    const mot1 = new MOT(new Date('2004-02-10T09:00:00'), 10000, true);
+    // Changes to custom reg
+    const vrm1 = new ChangeOfVrm(new Date('2004-04-22T09:00:00'), 'IP4 3DY', 'CO5 7EH');
+    // MOT following year
+    const mot2 = new MOT(new Date('2005-02-08T09:00:00'), 24500, true);
+    // MOT following year
+    const mot3 = new MOT(new Date('2006-02-05T09:00:00'), 41375, true);
+    // Sells car at christmas time
+    const advert1 = new AdvertisedForSale(new Date('2006-12-05T09:00:00'), 20000, 58000);
+    // New owner changes reg
+    const vrm2 = new ChangeOfVrm(new Date('2006-12-25T09:00:00'), 'CO5 7EH', 'E16 1FH');
+    // Sells it on a month later
+    const advert2 = new AdvertisedForSale(new Date('2007-01-05T09:00:00'), 23500, 62000);
+    // MOT
+    const mot4 = new MOT(new Date('2007-02-05T09:00:00'), 68000, true);
+
+    vehicle.addToTimeline(mot1);
+    vehicle.addToTimeline(vrm1);
+    vehicle.addToTimeline(mot2);
+    vehicle.addToTimeline(mot3);
+    vehicle.addToTimeline(advert1);
+    vehicle.addToTimeline(vrm2);
+    vehicle.addToTimeline(advert2);
+    vehicle.addToTimeline(mot4);
+
+    const mileageValues = vehicle.calculateMileageValues();
+
+    expect(mileageValues.averageAnnualMileage).toBe(17000);
+    expect(mileageValues.currentMileageEstimate).toBe(85000);
+    
+
+    // TODO: Another one with only vrm as they have no mileage.
 })

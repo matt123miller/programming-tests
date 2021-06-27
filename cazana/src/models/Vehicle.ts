@@ -35,4 +35,12 @@ export default class Vehicle implements Unique {
         return this.timeline;
     }
 
+    /**
+     * Call through to the Timeline but accessible to other code who doesn't 
+     * know or care about the timeline.
+     */
+    calculateMileageValues() {
+        return this._timeline.calculateMileageValues();
+    }
+
 }

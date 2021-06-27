@@ -60,14 +60,23 @@ export default class Timeline {
      * 2. Estimate the vehicle’s current mileage by projecting from the most recent
      * event using the average annual mileage.
      * 3. If there are no timeline events with mileage, calculate using 7,900 miles
-     * per year as the average.
+     * per year as the average. This is handled inside `getMileageBetweenYears`
      */
     calculateMileageValues() {
 
+        const grouped = this.groupIntoYears();
+
+        const averageAnnualMileage = Timeline.getAverageMileageOfYears(grouped);
+        const currentMileageEstimate = this.estimateCurrentMileage(grouped, averageAnnualMileage)
+    
+        return {
+            averageAnnualMileage,
+            currentMileageEstimate
+        }
     }
 
     /**
-     * 
+     * I actually didn't end up using this for anything, but I'll leave this and it's tests in.
      */
     durationOfTimeline() {
         // Just throw an error for lengths 0 and 1
