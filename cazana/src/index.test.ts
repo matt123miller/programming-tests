@@ -177,14 +177,95 @@ test('Timeline - Find the length of the timeline in days', () => {
     expect(res2.latestEvent.date).toBe(d5);
 })
 
-test('Timeline - Calculate annual mileage with no mileage events', () => {
-    // The only event without mileage is ChangeOfVrm
-    // So lets use lots of those
+test('Timeline - Chunk events into annual groups', () => {
+
+    const d1 = new Date('2000-01-01T09:00:00');
+    const d2 = new Date('2000-06-01T09:00:00');
+    const d3 = new Date('2001-02-01T09:00:00');
+    const d4 = new Date('2001-03-01T09:00:00');
+    const d5 = new Date('2003-03-15T09:00:00');
+    const d6 = new Date('2004-04-01T09:00:00');
+    const d7 = new Date('2004-04-01T12:00:00');
+
+    const mot1 = new MOT(d1, 1000, true)
+    const vrm1 = new ChangeOfVrm(d2, '1', '2');
+    const mot2 = new MOT(d3, 3000, true);
+    const vrm2 = new ChangeOfVrm(d4, '2', '3');
+    const advert1 = new AdvertisedForSale(d5, 100, 8000);
+    const advert2 = new AdvertisedForSale(d6, 100, 10000);
+    const mot3 = new MOT(d7, 10000, true);
 
 
+    // First start by simple grouping, where the first date is also the start of a year
+    let timeline = new Timeline();
+
+    timeline.add(mot1);
+    timeline.add(vrm1);
+    timeline.add(mot2);
+    timeline.add(mot3);
+
+    let grouping = timeline.groupIntoYears();
+    expect(Object.keys(grouping)).toHaveLength(3);
+    expect(grouping).toHaveProperty('2000')
+    expect(grouping).toHaveProperty('2001')
+    expect(grouping).toHaveProperty('2004')
+    expect(grouping['2000'].events).toHaveLength(2);
+
+    // Now add something that should get inserted in the middle
+    timeline.add(advert1); // has year 2003
+    grouping = timeline.groupIntoYears();
+    expect(Object.keys(grouping)).toHaveLength(4);
+    expect(grouping).toHaveProperty('2000')
+    expect(grouping).toHaveProperty('2001')
+    expect(grouping).toHaveProperty('2003')
+    expect(grouping).toHaveProperty('2004')
 
 })
 
-test.todo('Timeline - Calculate annual mileage with all mileage events')
+test('Timeline - Get the average mileage of all years in the timeline', () => {
+    
+})
 
-test.todo('Timeline - Calculate annual mileage with micture of mileage and non-mileage events')
+
+test.todo('Timeline - searchFromBackForMileage')
+
+
+test('Timeline - Calculate annual mileage with mixture of mileage and non-mileage events', () => {
+
+    const timeline = new Timeline();
+
+    timeline.add({ id: '1', mileage: 1000, date: new Date('2000-01-01T09:00:00') })
+    timeline.add({ id: '2', mileage: 2000, date: new Date('2001-01-01T09:00:00') })
+    timeline.add({ id: '3', mileage: 2500, date: new Date('2002-01-01T09:00:00') })
+    timeline.add({ id: '4', mileage: 4000, date: new Date('2003-01-01T09:00:00') })
+    
+    let grouping = timeline.groupIntoYears();    
+    expect(grouping['2000'].mileage).toBe(1000);
+    expect(grouping['2001'].mileage).toBe(1000);
+    expect(grouping['2002'].mileage).toBe(500);
+    expect(grouping['2003'].mileage).toBe(1500);
+
+
+    timeline.add({ id: '5', mileage: 6000, date: new Date('2004-01-01T09:00:00') })
+    timeline.add({ id: '6', date: new Date('2004-02-01T09:00:00') })
+    timeline.add({ id: '7', mileage: 6700, date: new Date('2004-03-01T09:00:00') })
+    timeline.add({ id: '8', date: new Date('2004-04-01T09:00:00') })
+    timeline.add({ id: '9', mileage: 8000, date: new Date('2005-01-01T09:00:00') })
+    timeline.add({ id: '10', mileage: 10000, date: new Date('2006-01-01T09:00:00') })
+
+    grouping = timeline.groupIntoYears();
+    // Should now have 7 different years
+    expect(Object.keys(grouping)).toHaveLength(7);
+    expect(grouping['2004'].mileage).toBe(2700);
+    expect(grouping['2005'].mileage).toBe(1300);
+    expect(grouping['2006'].mileage).toBe(2000);
+
+})
+
+
+test('Timeline - Calculate annual mileage with no mileage events', () => {
+    // The only event without mileage is ChangeOfVrm
+    // So lets use lots of those
+})
+
+test.todo('Timeline - Calculate annual mileage with all mileage events')
