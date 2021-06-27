@@ -1,6 +1,6 @@
 import { validate as validUuid } from "uuid";
 
-
+import Timeline from './Timeline';
 import { VRMDetails, Vehicle, MOT, AdvertisedForSale } from './models'
 
 test('Vehicle Constructor', () => {
@@ -60,53 +60,54 @@ test('Vehicle Timeline - adding to timeline', () => {
     vehicle.addToTimeline(mot);
 
     expect(vehicle.timeline).toContain(mot);
-    expect(vehicle.timeline.size).toBe(1);
+    expect(vehicle.timeline).toHaveLength(1);
 
     vehicle.addToTimeline(advert);
 
     expect(vehicle.timeline).toContain(advert);
-    expect(vehicle.timeline.size).toBe(2);
+    expect(vehicle.timeline).toHaveLength(2);
 })
 
 
-test('Vehicle Timeline - Each event is unique', () => {
+test('Timeline - Each event is unique', () => {
 
     const regDate = new Date('2000-01-01T09:00:00');
     const motDate = new Date('2000-01-15T09:00:00');
     const advertiseDate = new Date('2000-01-16T09:00:00');
 
-    const vehicle = new Vehicle(regDate, '123', 'Ford', 'Fiesta');
+    const timeline = new Timeline();
+
     const mot1 = new MOT(motDate, 3000, true);
     const advert = new AdvertisedForSale(advertiseDate, 2000, 4000);
     
     // Because each TimelineEvent has it's own generated id I can trust
-    vehicle.addToTimeline(mot1);
-    vehicle.addToTimeline(mot1);
+    timeline.add(mot1);
+    timeline.add(mot1);
     
-    expect(vehicle.timeline).toContain(mot1);
-    expect(vehicle.timeline.size).toBe(1);
+    expect(timeline.events).toContain(mot1);
+    expect(timeline.events).toHaveLength(1);
     
     const mot2 = new MOT(motDate, 3000, true);
     
-    vehicle.addToTimeline(mot2);
+    timeline.add(mot2);
 
-    expect(vehicle.timeline).toContain(mot1);
-    expect(vehicle.timeline).toContain(mot2);
-    expect(vehicle.timeline.size).toBe(2);
+    expect(timeline.events).toContain(mot1);
+    expect(timeline.events).toContain(mot2);
+    expect(timeline.events).toHaveLength(2);
 
     // Checking that order or insertion makes no difference
-    vehicle.addToTimeline(mot1);
+    timeline.add(mot1);
 
-    expect(vehicle.timeline).toContain(mot1);
-    expect(vehicle.timeline).toContain(mot2);
-    expect(vehicle.timeline.size).toBe(2);
+    expect(timeline.events).toContain(mot1);
+    expect(timeline.events).toContain(mot2);
+    expect(timeline.events).toHaveLength(2);
 })
 
 // Having to make these todo tests isn't as nice as Mocha's pending tests
-test.todo('Vehicle Timeline - Get most recent event')
+test.todo('Timeline - Get most recent event')
 
-test.todo('Vehicle Timeline - Calculate annual mileage with no mileage events')
+test.todo('Timeline - Calculate annual mileage with no mileage events')
 
-test.todo('Vehicle Timeline - Calculate annual mileage with all mileage events')
+test.todo('Timeline - Calculate annual mileage with all mileage events')
 
-test.todo('Vehicle Timeline - Calculate annual mileage with micture of mileage and non-mileage events')
+test.todo('Timeline - Calculate annual mileage with micture of mileage and non-mileage events')
