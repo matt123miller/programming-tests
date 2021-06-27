@@ -136,7 +136,7 @@ test('Timeline - Get most recent event', () => {
     expect(timeline.latestEvent).toBe(mot2);
 })
 
-test.todo('Timeline - Calculate annual mileage with no mileage events', () =>{
+test('Timeline - Calculate annual mileage with no mileage events', () =>{
     // The events without mileage are ChangeOfVrm
 })
 

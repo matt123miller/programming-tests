@@ -12,9 +12,9 @@ export default class events {
     sortDirection!: -1 | 1;
 
 
-
+    // It should be sorted every time you add so it's safe to just grab the last one
     public get latestEvent() {
-        return this.sorted()[0] ?? null;
+        return this.events[this.events.length - 1] ?? null;
     }
 
     /**
@@ -40,15 +40,16 @@ export default class events {
         }
 
         this.events.push(newEvent);
+        this.events = this.sorted();
 
         return this.events;
     }
 
     /**
-     * Return the events sorted by their date values
+     * Return the events sorted by their date values. [oldest ... most recent]
      */
     sorted() : Array<TimelineEvent> {
-        return this.events.sort((a,b) => b.date.getTime() - a.date.getTime());
+        return this.events.sort((a,b) => a.date.getTime() - b.date.getTime());
     }
 
     // Task
@@ -58,5 +59,7 @@ export default class events {
     // event using the average annual mileage.
     // 3. If there are no timeline events with mileage, calculate using 7,900 miles 
     // per year as the average.
+
+    
 
 }

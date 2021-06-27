@@ -12,7 +12,7 @@ export default class Vehicle implements Unique {
 
     private _timeline = new Timeline();
     public get timeline() {
-        // Potentially make this lazily evaluated and sort by whenever it's requested
+        // Potentially make this lazily evaluated and sort whenever it's requested
         return this._timeline.events;
     }
 
