@@ -2,6 +2,7 @@ import { validate as validUuid } from "uuid";
 
 import Timeline from './Timeline';
 import { ChangeOfVrm, Vehicle, MOT, AdvertisedForSale } from './models'
+import { EventsByYearWithMileage } from "./types";
 
 test('Vehicle Constructor', () => {
 
@@ -223,7 +224,61 @@ test('Timeline - Chunk events into annual groups', () => {
 })
 
 test('Timeline - Get the average mileage of all years in the timeline', () => {
-    
+
+    const testData: EventsByYearWithMileage = {
+        '20015': { mileage: 10000, events: [], },
+        '2016': { mileage: 8000, events: [], },
+        '2017': { mileage: 13000, events: [], },
+        '2018': { mileage: 27000, events: [], },
+        '2019': { mileage: 1000, events: [], },
+        '2020': { mileage: 1000, events: [], },
+    }
+
+    // Manually doing the maths for the above mileage comes out to....
+    const totalMileage = 60000
+    // 10000
+    const myAverage = totalMileage / 6;
+
+    const average = Timeline.getAverageMileageOfYears(testData);
+
+    expect(average).toBe(myAverage);
+})
+
+test('Timeline - Estimate the current mileage based on previous events', () => {
+    let testData: EventsByYearWithMileage = {
+        '2018': { mileage: 27000, events: [], },
+        '2019': { mileage: 1500, events: [], },
+        '2020': { mileage: 1500, events: [], },
+    }
+
+    const timeline = new Timeline();
+
+    let estimatedMileage = timeline.estimateCurrentMileage(testData, 10000);
+
+    expect(estimatedMileage).toBe(40000);
+
+    testData = {
+        '2018': { mileage: 12000, events: [], },
+        '2019': { mileage: 3000, events: [], },
+        '2020': { mileage: 3000, events: [], },
+    }
+
+    estimatedMileage = timeline.estimateCurrentMileage(testData, 6000);
+
+    expect(estimatedMileage).toBe(24000);
+
+    testData = {
+        '20015': { mileage: 10000, events: [], },
+        '2016': { mileage: 8000, events: [], },
+        '2017': { mileage: 13000, events: [], },
+        '2018': { mileage: 12000, events: [], },
+        '2019': { mileage: 3000, events: [], },
+        '2020': { mileage: 3000, events: [], },
+    }
+
+    estimatedMileage = timeline.estimateCurrentMileage(testData, 7000);
+
+    expect(estimatedMileage).toBe(56000);
 })
 
 
@@ -238,8 +293,8 @@ test('Timeline - Calculate annual mileage with mixture of mileage and non-mileag
     timeline.add({ id: '2', mileage: 2000, date: new Date('2001-01-01T09:00:00') })
     timeline.add({ id: '3', mileage: 2500, date: new Date('2002-01-01T09:00:00') })
     timeline.add({ id: '4', mileage: 4000, date: new Date('2003-01-01T09:00:00') })
-    
-    let grouping = timeline.groupIntoYears();    
+
+    let grouping = timeline.groupIntoYears();
     expect(grouping['2000'].mileage).toBe(1000);
     expect(grouping['2001'].mileage).toBe(1000);
     expect(grouping['2002'].mileage).toBe(500);
@@ -259,13 +314,4 @@ test('Timeline - Calculate annual mileage with mixture of mileage and non-mileag
     expect(grouping['2004'].mileage).toBe(2700);
     expect(grouping['2005'].mileage).toBe(1300);
     expect(grouping['2006'].mileage).toBe(2000);
-
 })
-
-
-test('Timeline - Calculate annual mileage with no mileage events', () => {
-    // The only event without mileage is ChangeOfVrm
-    // So lets use lots of those
-})
-
-test.todo('Timeline - Calculate annual mileage with all mileage events')

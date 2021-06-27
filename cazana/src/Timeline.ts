@@ -27,7 +27,11 @@ export default class Timeline {
         this.sortDirection = sortDirection == 'NewToOld' ? -1 : 1;
     }
 
-
+    /**
+     * 
+     * @param newEvent 
+     * @returns 
+     */
     add(newEvent: TimelineEvent): Array<TimelineEvent> {
 
         for (const event of this.events) {
@@ -49,20 +53,24 @@ export default class Timeline {
         return this.events.sort((a, b) => a.date.getTime() - b.date.getTime());
     }
 
-    // Task
-    // Provide a way to estimate a vehicle’s current mileage using the timeline.
-    // 1. Calculate the average annual mileage using the events in the timeline.
-    // 2. Estimate the vehicle’s current mileage by projecting from the most recent 
-    // event using the average annual mileage.
-    // 3. If there are no timeline events with mileage, calculate using 7,900 miles 
-    // per year as the average.
+    /**
+     * Calls each of the functions in turn that fulfils the test requirements
+     * Provide a way to estimate a vehicle’s current mileage using the timeline.
+     * 1. Calculate the average annual mileage using the events in the timeline.
+     * 2. Estimate the vehicle’s current mileage by projecting from the most recent
+     * event using the average annual mileage.
+     * 3. If there are no timeline events with mileage, calculate using 7,900 miles
+     * per year as the average.
+     */
+    calculateMileageValues() {
 
+    }
 
     /**
      * 
      */
     durationOfTimeline() {
-        // Just throw an event for lengths 0 and 1
+        // Just throw an error for lengths 0 and 1
         // I can't know what consumers will do with that scenario.
 
         if (this.events.length <= 1) {
@@ -90,7 +98,7 @@ export default class Timeline {
         // Nice and simple loop
         for (const event of this.events) {
             const yearString = event.date.getFullYear().toString();
-            // probably a much nicer way to do this
+            // probably a much nicer way to do the following 2 branches
             if (eventsByYear[yearString]) {
                 eventsByYear[yearString].events.push(event);
             }
@@ -105,9 +113,12 @@ export default class Timeline {
     }
 
 
-    // Seems like I overcomplicated this.
+    /**
+     * Seems like I overcomplicated this.
+     * @param yearsWithEvents 
+     * @returns 
+     */
     getMileageBetweenYears(yearsWithEvents: EventsByYear): EventsByYearWithMileage {
-
 
         const defaultMileage = 7900;
         // Objects aren't ordered after all
@@ -121,14 +132,11 @@ export default class Timeline {
 
         let prevYearLastEventWithMileage = firstYearsLastEventWithMileage;
 
-        // console.log(firstYear);
-
         //for each year other than first
-            // find the last event with mileage
-                // If none found fall back to default value of 7,900
-            // Find the different in mileage compare to last years
-                // If prev years event had no mileage either use 7900
-            // record the difference
+        // find the last event with mileage
+        // Find the different in mileage compare to last years
+        // If no event was found though fall back to default value of 7,900
+        // record the difference
 
 
         for (const key in yearsWithEvents) {
@@ -143,10 +151,7 @@ export default class Timeline {
 
             // If there was an event this year with mileage we'll use that to work out how far we think they travelled
             // Otherwise use the fallback of 7900
-
             if (typeof lastEventWithMileage !== 'undefined') {
-
-                // does the previous year even have mileage?
                 if (prevYearLastEventWithMileage?.mileage) {
                     // @ts-ignore
                     mileage = lastEventWithMileage?.mileage - prevYearLastEventWithMileage?.mileage;
@@ -157,14 +162,17 @@ export default class Timeline {
             // @ts-ignore
             year.mileage = mileage;
 
-            // console.log(year);
-
             prevYearLastEventWithMileage = lastEventWithMileage;
         }
 
         return yearsWithEvents as EventsByYearWithMileage;
     }
 
+    /**
+     * 
+     * @param arr 
+     * @returns 
+     */
     private searchFromBackForMileage(arr: TimelineEvent[]) {
         // .reverse does it in place so need to spread into new array
         const reversed = [...arr].reverse();
@@ -174,8 +182,27 @@ export default class Timeline {
     /**
      * I see this function as stateless and not relying on or changing any data on an instance
      * so static it is.
+     * Calculate the average annual mileage using the events in the timeline.
+     * @param yearsWithMileage
      */
     static getAverageMileageOfYears(yearsWithMileage: EventsByYearWithMileage) {
+        const keys = Object.keys(yearsWithMileage);
+        const total = keys.reduce((total, year) => total += yearsWithMileage[year].mileage, 0);
+        return total / keys.length;
+    }
 
+
+    /**
+     * Estimate the vehicle’s current mileage by projecting from the most recent  
+     * event using the average annual mileage.
+     * @param yearsWithMileage 
+     * @param averageAnnualMileage 
+     * @returns 
+     */
+    estimateCurrentMileage(yearsWithMileage: EventsByYearWithMileage, averageAnnualMileage: number) {
+        // total up all the mileage
+        const totalMileage = Object.keys(yearsWithMileage).reduce((total, year) => total += yearsWithMileage[year].mileage, 0);
+        // Add the average
+        return totalMileage + averageAnnualMileage;
     }
 }
