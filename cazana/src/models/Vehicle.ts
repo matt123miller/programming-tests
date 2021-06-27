@@ -15,7 +15,6 @@ export default class Vehicle implements Unique {
         // Potentially make this lazily evaluated and sort whenever it's requested
         return this._timeline.events;
     }
-
     /**
      *
      */

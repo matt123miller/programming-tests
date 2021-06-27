@@ -1,6 +1,8 @@
+import diffInDays from 'date-fns/differenceInDays';
 import { Unique, TimelineEvent } from "./types";
 
 // Basically an enum
+// Come back to this idea.
 type SortDirection = 'NewToOld' | 'OldToNew';
 
 export default class events {
@@ -20,11 +22,10 @@ export default class events {
     /**
      * 
      */
-    constructor(sortDirection?:SortDirection) {
+    constructor(sortDirection?: SortDirection) {
         // Honestly can't think what it would need
 
-        // Come back to this idea.
-        this.sortDirection = sortDirection == 'NewToOld' ? -1 : 1 ;
+        this.sortDirection = sortDirection == 'NewToOld' ? -1 : 1;
     }
 
 
@@ -48,8 +49,8 @@ export default class events {
     /**
      * Return the events sorted by their date values. [oldest ... most recent]
      */
-    sorted() : Array<TimelineEvent> {
-        return this.events.sort((a,b) => a.date.getTime() - b.date.getTime());
+    sorted(): Array<TimelineEvent> {
+        return this.events.sort((a, b) => a.date.getTime() - b.date.getTime());
     }
 
     // Task
@@ -60,6 +61,25 @@ export default class events {
     // 3. If there are no timeline events with mileage, calculate using 7,900 miles 
     // per year as the average.
 
-    
 
+    /**
+     * 
+     * @returns 
+     */
+    durationOfTimeline() {
+        // Just throw an event for lengths 0 and 1
+        // I can't know what consumers will do with that scenario.
+
+        if (this.events.length <= 1) {
+            throw new Error(`Timeline is too small. Please add more events.`);
+        }
+
+        const oldestEvent = this.events[0];
+        const latestEvent = this.events[this.events.length - 1];
+        // Can sometimes be 0, but almost always positive.
+        const daysBetween = diffInDays(latestEvent.date, oldestEvent.date);
+
+        // This is the sort of thing that I normally want a few weeks later so returning all now.
+        return { daysBetween, oldestEvent, latestEvent };
+    }
 }

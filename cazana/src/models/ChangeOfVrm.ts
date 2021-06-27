@@ -10,7 +10,8 @@ export default class ChangeOfVrm implements TimelineEvent {
     to: VRM;
 
     /**
-     *
+     * In a real system I'd probably change VRM via the vehicle instead and 
+     * return this object. But for now this will do.
      */
     constructor(date: Date, from: VRM, to: VRM) {
         this.date = date;
