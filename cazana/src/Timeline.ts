@@ -1,5 +1,7 @@
 import { Unique, TimelineEvent } from "./types";
 
+// Basically an enum
+type SortDirection = 'NewToOld' | 'OldToNew';
 
 export default class events {
 
@@ -7,9 +9,22 @@ export default class events {
     // I'll leave it as Set for now.
     events: Array<TimelineEvent> = [];
 
+    sortDirection!: -1 | 1;
 
-    constructor() {
+
+
+    public get latestEvent() {
+        return this.sorted()[0] ?? null;
+    }
+
+    /**
+     * 
+     */
+    constructor(sortDirection?:SortDirection) {
         // Honestly can't think what it would need
+
+        // Come back to this idea.
+        this.sortDirection = sortDirection == 'NewToOld' ? -1 : 1 ;
     }
 
 
@@ -18,7 +33,7 @@ export default class events {
         // Because we're using a Set it returns the same key and value from entries
         // So we can desctructure the iterator and discard 1 of the values.
 
-        for (const [_, event] of this.events.entries()) {
+        for (const event of this.events) {
             if (newEvent.id === event.id) {
                 return this.events;
             }
@@ -29,6 +44,12 @@ export default class events {
         return this.events;
     }
 
+    /**
+     * Return the events sorted by their date values
+     */
+    sorted() : Array<TimelineEvent> {
+        return this.events.sort((a,b) => b.date.getTime() - a.date.getTime());
+    }
 
     // Task
     // Provide a way to estimate a vehicle’s current mileage using the timeline.
@@ -38,11 +59,4 @@ export default class events {
     // 3. If there are no timeline events with mileage, calculate using 7,900 miles 
     // per year as the average.
 
-    /**
-     * Return the events sorted by their date values in the direction requested, defaulting to recent first.
-     * @param recentFirst 
-     */
-    getSorted(recentFirst:Boolean = true) {
-
-    }
 }

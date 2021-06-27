@@ -103,10 +103,42 @@ test('Timeline - Each event is unique', () => {
     expect(timeline.events).toHaveLength(2);
 })
 
-// Having to make these todo tests isn't as nice as Mocha's pending tests
-test.todo('Timeline - Get most recent event')
+test('Timeline - Get most recent event', () => {
 
-test.todo('Timeline - Calculate annual mileage with no mileage events')
+    let timeline = new Timeline();
+    
+    const mot1Date = new Date('2000-01-15T09:00:00');
+    const mot1 = new MOT(mot1Date, 3000, true);
+    const mot2Date = new Date('2000-01-20T09:00:00');
+    const mot2 = new MOT(mot2Date, 3000, true);
+    const mot3Date = new Date('2000-01-25T09:00:00');
+    const mot3 = new MOT(mot3Date, 3000, true);
+
+    expect(timeline.latestEvent).toBeFalsy();
+    expect(timeline.latestEvent).toBeNull();
+
+    timeline.add(mot1);
+
+    expect(timeline.latestEvent).toBeTruthy();
+    expect(timeline.latestEvent).toBe(mot1);
+
+    timeline.add(mot2);
+    timeline.add(mot3);
+
+    expect(timeline.latestEvent).toBe(mot3);
+
+    timeline = new Timeline();
+
+    // checking insertion order doesn't matter
+    timeline.add(mot2)
+    timeline.add(mot1)
+
+    expect(timeline.latestEvent).toBe(mot2);
+})
+
+test.todo('Timeline - Calculate annual mileage with no mileage events', () =>{
+    // The events without mileage are ChangeOfVrm
+})
 
 test.todo('Timeline - Calculate annual mileage with all mileage events')
 
