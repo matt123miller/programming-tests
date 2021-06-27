@@ -6,13 +6,13 @@ import { VRM, TimelineEvent } from "../types";
 export default class MOT implements TimelineEvent {
     readonly id = v4uuid();
     date: Date;
-    mileage: Number;
+    mileage: number;
     result: Boolean;
 
     /**
      *
      */
-    constructor(date:Date, mileage: Number, result: Boolean) {
+    constructor(date:Date, mileage: number, result: Boolean) {
         this.date = date;
         this.mileage = mileage;
         this.result = result;

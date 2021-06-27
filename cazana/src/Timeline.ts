@@ -4,10 +4,10 @@ import { Unique, TimelineEvent, EventsByYear, EventsByYearWithMileage } from "./
 
 // Basically an enum
 // Come back to this idea.
-type SortDirection = 'NewToOld' | 'OldToNew'; 
+type SortDirection = 'NewToOld' | 'OldToNew';
 
 
-export default class events {
+export default class Timeline {
 
     events: Array<TimelineEvent> = [];
 
