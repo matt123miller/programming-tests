@@ -4,13 +4,7 @@ test('Vehicle Constructor', () => {
 
     const regDate = new Date('2000-01-14T09:00:00');
 
-    // - id
-    // - VRM(number plate)
-    // - make(e.g., Ford)
-    // - model(e.g., Fiesta)
-    // - first registration date
-
-    const vehicle = new Vehicle(1, '123', 'Ford', 'Fiesta' regDate);
+    const vehicle = new Vehicle(1, regDate, '123', 'Ford', 'Fiesta');
     expect(vehicle.id).toEqual(1);
     expect(vehicle.vrm).toEqual('123');
     expect(vehicle.make).toEqual('Ford');
@@ -20,28 +14,22 @@ test('Vehicle Constructor', () => {
 
 test('MOT Constructor', () => {
 
-// - date
-//     - mileage
-//     - result(pass / fail)
     const validDate = new Date('2000-01-14T09:00:00');
 
-    const vehicle = new MOT(validDate, 3000, true);
-    expect(vehicle.date).toEqual(1);
-    expect(vehicle.mileage).toEqual('123');
-    expect(vehicle.result).toEqual(true);
+    const mot = new MOT(validDate, 3000, true);
+    expect(mot.date).toEqual(validDate);
+    expect(mot.mileage).toEqual(3000);
+    expect(mot.result).toEqual(true);
 })
 
 test('AdvertisedForSale Constructor', () => {
 
-// - date
-//     - price
-//     - mileage
     const validDate = new Date('2000-01-14T09:00:00');
 
-    const vehicle = new AdvertisedForSale(validDate, 999, 3000);
-    expect(vehicle.date).toEqual(1);
-    expect(vehicle.price).toEqual(999);
-    expect(vehicle.mileage).toEqual(3000);
+    const advert = new AdvertisedForSale(validDate, 999, 3000);
+    expect(advert.date).toEqual(validDate);
+    expect(advert.price).toEqual(999);
+    expect(advert.mileage).toEqual(3000);
 })
 
 test('VRMDetails Constructor', () => {

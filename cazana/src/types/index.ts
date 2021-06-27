@@ -5,3 +5,5 @@ export interface TimelineEvent {
 
 
 export type VRM = String;
+export type Make = String;
+export type Model = String;
