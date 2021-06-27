@@ -1,5 +1,5 @@
-import { Vehicle } from './models'
+import { AdvertisedForSale } from './models'
 
 test('testing', () => {
-  expect(Vehicle()).toBeFalsy()
+  expect(AdvertisedForSale()).toBeFalsy()
 })
