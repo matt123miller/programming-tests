@@ -1,7 +1,10 @@
+import { v4 as v4uuid } from "uuid";
+
 import { VRM, TimelineEvent } from "../types";
 
 
 export default class MOT implements TimelineEvent {
+    readonly id = v4uuid();
     date: Date;
     mileage: Number;
     result: Boolean;
@@ -15,7 +18,3 @@ export default class MOT implements TimelineEvent {
         this.result = result;
     }
 }
-
-// - date
-//     - mileage
-//     - result(pass / fail)

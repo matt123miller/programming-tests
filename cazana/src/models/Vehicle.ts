@@ -1,4 +1,6 @@
-import { VRM, Make, Model, TimelineEvent } from "../types";
+import { v4 as v4uuid } from "uuid";
+
+import { Unique, VRM, Make, Model, TimelineEvent } from "../types";
 
 
 // Task
@@ -9,29 +11,41 @@ import { VRM, Make, Model, TimelineEvent } from "../types";
 // 3. If there are no timeline events with mileage, calculate using 7, 900 miles per year as the
 // average.
 
-export default class Vehicle {
-    readonly  id:Number;
+export default class Vehicle implements Unique {
+    readonly  id = v4uuid();
     regDate: Date;
     vrm: VRM;
     make: Make;
     model: Model;
 
+    // After implementing the id checks etc we can likely go back to array tbh.
+    // I'll leave it as Set for now.
     timeline: Set<TimelineEvent> = new Set();
 
     /**
      *
      */
-    constructor(id:Number, regDate: Date, vrm: VRM, make: Make, model: Model) {
-        this.id = id;
+    constructor(regDate: Date, vrm: VRM, make: Make, model: Model) {
         this.regDate = regDate;
         this.vrm = vrm;
         this.make = make;
         this.model = model;
+
+        // Does the creation count as an event? We have a registration date after all
     }
 
-    addToTimeline(event: TimelineEvent) : Set<TimelineEvent> {
+    addToTimeline(newEvent: TimelineEvent) : Set<TimelineEvent> {
 
-        this.timeline.add(event);
+        // Because we're using a Set it returns the same key and value from entries
+        // So we can desctructure the iterator and discard 1 of the values.
+
+        for (const [_, event] of this.timeline.entries()) {
+            if(newEvent.id === event.id) {
+                return this.timeline;
+            }
+        }
+
+        this.timeline.add(newEvent);
 
         return this.timeline;
     }

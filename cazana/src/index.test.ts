@@ -1,11 +1,14 @@
+import { validate as validUuid } from "uuid";
+
+
 import { VRMDetails, Vehicle, MOT, AdvertisedForSale } from './models'
 
 test('Vehicle Constructor', () => {
 
     const regDate = new Date('2000-01-01T09:00:00');
 
-    const vehicle = new Vehicle(1, regDate, '123', 'Ford', 'Fiesta');
-    expect(vehicle.id).toEqual(1);
+    const vehicle = new Vehicle(regDate, '123', 'Ford', 'Fiesta');
+    expect(validUuid(vehicle.id)).toBeTruthy();
     expect(vehicle.vrm).toEqual('123');
     expect(vehicle.make).toEqual('Ford');
     expect(vehicle.model).toEqual('Fiesta');
@@ -50,7 +53,7 @@ test('Vehicle Timeline - adding to timeline', () => {
     const motDate = new Date('2000-01-15T09:00:00');
     const advertiseDate = new Date('2000-01-15T09:00:00');
 
-    const vehicle = new Vehicle(1, regDate, '123', 'Ford', 'Fiesta');
+    const vehicle = new Vehicle(regDate, '123', 'Ford', 'Fiesta');
     const mot = new MOT(motDate, 3000, true);
     const advert = new AdvertisedForSale(advertiseDate, 2000, 4000);
 
@@ -72,14 +75,29 @@ test('Vehicle Timeline - Each event is unique', () => {
     const motDate = new Date('2000-01-15T09:00:00');
     const advertiseDate = new Date('2000-01-15T09:00:00');
 
-    const vehicle = new Vehicle(1, regDate, '123', 'Ford', 'Fiesta');
-    const mot = new MOT(motDate, 3000, true);
+    const vehicle = new Vehicle(regDate, '123', 'Ford', 'Fiesta');
+    const mot1 = new MOT(motDate, 3000, true);
     const advert = new AdvertisedForSale(advertiseDate, 2000, 4000);
-
-    vehicle.addToTimeline(mot);
-    vehicle.addToTimeline(mot);
-
-    expect(vehicle.timeline).toContain(mot);
+    
+    // Because each TimelineEvent has it's own generated id I can trust
+    vehicle.addToTimeline(mot1);
+    vehicle.addToTimeline(mot1);
+    
+    expect(vehicle.timeline).toContain(mot1);
     expect(vehicle.timeline.size).toBe(1);
     
+    const mot2 = new MOT(motDate, 3000, true);
+    
+    vehicle.addToTimeline(mot2);
+
+    expect(vehicle.timeline).toContain(mot1);
+    expect(vehicle.timeline).toContain(mot2);
+    expect(vehicle.timeline.size).toBe(2);
+
+    // Checking that order or insertion makes no difference
+    vehicle.addToTimeline(mot1);
+
+    expect(vehicle.timeline).toContain(mot1);
+    expect(vehicle.timeline).toContain(mot2);
+    expect(vehicle.timeline.size).toBe(2);
 })

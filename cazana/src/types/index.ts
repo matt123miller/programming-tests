@@ -1,6 +1,9 @@
-
-export interface TimelineEvent {
-    date: Date,
+export interface Unique {
+    /** v4 uuid */
+    readonly id: String;
+}
+export interface TimelineEvent extends Unique {
+    date: Date;
 }
 
 

@@ -14,9 +14,13 @@
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.14.5",
     "@types/jest": "^26.0.23",
+    "@types/uuid": "^8.3.0",
     "babel-jest": "^27.0.5",
     "jest": "^27.0.5",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }
