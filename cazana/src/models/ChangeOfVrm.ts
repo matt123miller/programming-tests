@@ -2,7 +2,7 @@ import { v4 as v4uuid } from "uuid";
 
 import { TimelineEvent, VRM } from "../types";
 
-export default class VRMDetails implements TimelineEvent {
+export default class ChangeOfVrm implements TimelineEvent {
 
     readonly id = v4uuid();
     date: Date;

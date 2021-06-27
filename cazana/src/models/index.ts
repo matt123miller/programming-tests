@@ -2,18 +2,18 @@
  * Vehicle
  * AdvertisedForSale
  * MOTTest
- * VrmDetails
+ * ChangeOfVrm
  */
 
 import Vehicle from './Vehicle'
 import MOT from './MOT'
-import VRMDetails from './VRMDetails'
+import ChangeOfVrm from './ChangeOfVrm'
 import AdvertisedForSale from './AdvertisedForSale'
 
 
 export {
     Vehicle,
     MOT,
-    VRMDetails,
+    ChangeOfVrm,
     AdvertisedForSale
 }

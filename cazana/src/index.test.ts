@@ -1,7 +1,7 @@
 import { validate as validUuid } from "uuid";
 
 import Timeline from './Timeline';
-import { VRMDetails, Vehicle, MOT, AdvertisedForSale } from './models'
+import { ChangeOfVrm, Vehicle, MOT, AdvertisedForSale } from './models'
 
 test('Vehicle Constructor', () => {
 
@@ -35,11 +35,11 @@ test('AdvertisedForSale Constructor', () => {
     expect(advert.mileage).toEqual(3000);
 })
 
-test('VRMDetails Constructor', () => {
+test('ChangeOfVrm Constructor', () => {
 
     const validDate = new Date('2021-06-27T09:00:00');
 
-    const vrm = new VRMDetails(validDate, '123', '456');
+    const vrm = new ChangeOfVrm(validDate, '123', '456');
     expect(vrm.date).toEqual(validDate);
     expect(vrm.from).toEqual('123');
     expect(vrm.to).toEqual('456');
